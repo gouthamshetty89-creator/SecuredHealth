@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secured Health — Tata AIG Health Insurance Advisor</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20 2 L35 8 V19 C35 29 28.5 35.5 20 38 C11.5 35.5 5 29 5 19 V8 Z' fill='%230E3A31'/%3E%3Cpath d='M11 21 L16 21 L18.5 14.5 L21.5 27.5 L24 21 L29 21' fill='none' stroke='%23DFAE55' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#132420;
+    --pine:#0E3A31;
+    --pine-2:#175048;
+    --paper:#F1F5F1;
+    --paper-2:#E4ECE6;
+    --gold:#C7963B;
+    --gold-2:#DFAE55;
+    --line:rgba(19,36,32,0.14);
+    --white:#FFFFFF;
+    --coral:#C4522F;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Work Sans', sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{font-family:'Fraunces', serif;}
+  .mono{font-family:'JetBrains Mono', monospace; letter-spacing:0.04em;}
+  a{color:inherit;}
+  img,svg{display:block; max-width:100%;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 24px;}
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    background:var(--ink); color:var(--paper);
+    font-size:13px;
+  }
+  .topbar .wrap{display:flex; justify-content:space-between; align-items:center; padding:9px 24px; gap:12px; flex-wrap:wrap;}
+  .topbar .badge{
+    text-transform:uppercase; letter-spacing:0.08em; font-size:11px; color:var(--gold-2);
+  }
+  .topbar .call{display:flex; align-items:center; gap:8px; text-decoration:none; color:var(--paper); font-weight:600;}
+  .topbar .call svg{width:14px; height:14px; stroke:var(--gold-2);}
+
+  /* ---------- Header / nav ---------- */
+  header.site{
+    position:sticky; top:0; z-index:50;
+    background:rgba(241,245,241,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  header.site .wrap{display:flex; align-items:center; justify-content:space-between; padding:16px 24px;}
+  .logo{display:flex; align-items:center; gap:11px; font-family:'Fraunces', serif; font-weight:600; font-size:21px;}
+  .logo .mark{width:36px; height:36px; flex-shrink:0;}
+  .logo .mark svg{width:100%; height:100%;}
+  .logo .word{line-height:1.05;}
+  .logo .word .sub{display:block; font-family:'Work Sans',sans-serif; font-size:10.5px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); margin-top:1px;}
+  nav.primary{display:flex; gap:28px; font-size:14.5px; font-weight:500;}
+  nav.primary a{text-decoration:none; opacity:0.8; transition:opacity .15s;}
+  nav.primary a:hover{opacity:1;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:11px 20px; border-radius:3px;
+    font-weight:600; font-size:14.5px;
+    text-decoration:none; border:1px solid transparent;
+    cursor:pointer; transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-gold{background:var(--gold); color:var(--ink);}
+  .btn-gold:hover{transform:translateY(-1px); box-shadow:0 6px 16px rgba(199,150,59,0.35);}
+  .btn-outline{border-color:var(--ink); background:transparent;}
+  .btn-outline:hover{background:var(--ink); color:var(--paper);}
+  .nav-cta{display:flex; align-items:center; gap:14px;}
+  .nav-cta .icon-call{display:none;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background:linear-gradient(180deg, var(--pine) 0%, var(--pine-2) 100%);
+    color:var(--paper);
+    position:relative;
+    overflow:hidden;
+    padding:76px 0 0 0;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      radial-gradient(circle at 85% 15%, rgba(223,174,85,0.18), transparent 45%),
+      repeating-linear-gradient(115deg, rgba(255,255,255,0.035) 0px, rgba(255,255,255,0.035) 1px, transparent 1px, transparent 68px);
+    pointer-events:none;
+  }
+  .hero .wrap{position:relative; display:grid; grid-template-columns:1.15fr 0.85fr; gap:56px; align-items:end;}
+  .hero-copy .eyebrow{
+    font-size:12.5px; text-transform:uppercase; letter-spacing:0.14em;
+    color:var(--gold-2); font-weight:600; margin-bottom:18px; display:flex; align-items:center; gap:10px;
+  }
+  .hero-copy .eyebrow::before{content:""; width:26px; height:1px; background:var(--gold-2);}
+  .hero-copy h1{
+    font-size:clamp(34px,4.4vw,58px);
+    font-weight:600; line-height:1.06; letter-spacing:-0.01em;
+    max-width:14ch;
+  }
+  .hero-copy h1 em{font-style:italic; color:var(--gold-2); font-weight:500;}
+  .hero-copy p.lede{
+    margin-top:22px; max-width:46ch; font-size:17px; color:rgba(241,245,241,0.82);
+  }
+  .hero-actions{display:flex; gap:14px; margin-top:34px; flex-wrap:wrap;}
+  .btn-ghost-light{border:1px solid rgba(241,245,241,0.4); color:var(--paper); background:transparent;}
+  .btn-ghost-light:hover{background:rgba(241,245,241,0.1);}
+
+  .hero-stats{
+    display:flex; gap:0; margin-top:52px; border-top:1px solid rgba(241,245,241,0.18);
+    padding-top:22px; max-width:640px;
+  }
+  .hero-stats div{flex:1; padding-right:20px;}
+  .hero-stats .num{font-family:'Fraunces',serif; font-size:26px; font-weight:600; color:var(--gold-2);}
+  .hero-stats .lab{font-size:12.5px; color:rgba(241,245,241,0.65); margin-top:2px;}
+
+  /* Hero side card - the signature element: live policy compass preview */
+  .compass-teaser{
+    background:rgba(241,245,241,0.06);
+    border:1px solid rgba(241,245,241,0.18);
+    border-radius:6px;
+    padding:26px 24px;
+    backdrop-filter:blur(6px);
+    margin-bottom:0;
+  }
+  .compass-teaser .tag{font-size:11.5px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold-2); font-weight:600;}
+  .compass-teaser h3{font-size:20px; margin-top:10px; font-weight:600;}
+  .compass-teaser p{font-size:14px; color:rgba(241,245,241,0.75); margin-top:10px;}
+  .compass-teaser .arrow{margin-top:18px; font-size:14px; font-weight:600; color:var(--gold-2); display:flex; align-items:center; gap:6px;}
+
+  .hero-band{
+    margin-top:56px;
+    background:var(--paper);
+    border-radius:16px 16px 0 0;
+    height:26px;
+  }
+
+  /* ---------- Section shared ---------- */
+  section{padding:88px 0;}
+  .sec-head{max-width:640px; margin-bottom:52px;}
+  .sec-head .eyebrow{
+    font-size:12px; text-transform:uppercase; letter-spacing:0.12em; color:var(--pine-2); font-weight:700;
+    margin-bottom:12px;
+  }
+  .sec-head h2{font-size:clamp(26px,3vw,38px); font-weight:600; line-height:1.15;}
+  .sec-head p{margin-top:14px; color:rgba(19,36,32,0.68); font-size:16px; max-width:56ch;}
+
+  /* ---------- Policy Compass (selector) ---------- */
+  #compass{background:var(--paper-2);}
+  .compass-shell{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:40px;
+    display:grid;
+    grid-template-columns:280px 1fr;
+    gap:44px;
+  }
+  .compass-steps{border-right:1px solid var(--line); padding-right:36px;}
+  .compass-step{
+    display:flex; gap:12px; padding:14px 0; opacity:0.4; transition:opacity .2s;
+  }
+  .compass-step.active{opacity:1;}
+  .compass-step .n{
+    font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:600;
+    width:22px; height:22px; border-radius:50%; border:1px solid var(--ink);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px;
+  }
+  .compass-step.active .n{background:var(--pine); color:var(--paper); border-color:var(--pine);}
+  .compass-step .t{font-size:14.5px; font-weight:600;}
+  .compass-step .d{font-size:13px; color:rgba(19,36,32,0.55); margin-top:2px;}
+
+  .compass-q{display:none;}
+  .compass-q.active{display:block; animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+  .compass-q h4{font-size:19px; font-weight:600; margin-bottom:20px;}
+  .opt-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .opt{
+    border:1px solid var(--line); border-radius:6px; padding:16px 18px;
+    cursor:pointer; transition:border-color .15s, background .15s;
+    font-size:14.5px; font-weight:500;
+  }
+  .opt:hover{border-color:var(--gold);}
+  .opt.selected{border-color:var(--pine); background:rgba(14,58,49,0.05);}
+  .opt .oh{font-weight:600; margin-bottom:3px;}
+  .opt .os{font-size:12.5px; color:rgba(19,36,32,0.55); font-weight:400;}
+
+  .compass-nav{display:flex; justify-content:space-between; margin-top:28px; align-items:center;}
+  .compass-nav .back{font-size:13.5px; text-decoration:underline; cursor:pointer; opacity:0.6;}
+  .compass-nav .back.hidden{visibility:hidden;}
+
+  /* Result card */
+  .result{display:none;}
+  .result.active{display:block; animation:fade .4s ease;}
+  .result-card{
+    border:1px solid var(--pine); border-radius:8px; padding:28px;
+    background:linear-gradient(180deg, rgba(14,58,49,0.04), transparent);
+  }
+  .result-card .tag{font-size:11.5px; text-transform:uppercase; letter-spacing:0.1em; color:var(--pine-2); font-weight:700;}
+  .result-card h3{font-size:24px; margin-top:8px; font-weight:600;}
+  .result-card .sub{font-size:14px; color:rgba(19,36,32,0.6); margin-top:4px;}
+  .result-card ul{margin-top:16px; padding-left:0; list-style:none;}
+  .result-card li{
+    display:flex; gap:10px; font-size:14.5px; padding:6px 0; align-items:flex-start;
+  }
+  .result-card li::before{content:"—"; color:var(--gold); font-weight:700; flex-shrink:0;}
+  .result-card .si{
+    margin-top:18px; padding-top:18px; border-top:1px dashed var(--line);
+    font-family:'JetBrains Mono', monospace; font-size:13px; color:var(--pine-2);
+  }
+  .result-actions{display:flex; gap:12px; margin-top:24px; flex-wrap:wrap;}
+  .restart{font-size:13.5px; text-decoration:underline; cursor:pointer; opacity:0.6; margin-top:16px; display:inline-block;}
+
+  /* ---------- Plan grid ---------- */
+  #plans .wrap > .sec-head + .plan-grid{margin-top:0;}
+  .plan-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:20px;
+  }
+  .plan-card{
+    background:var(--white); border:1px solid var(--line); border-radius:6px;
+    padding:26px; display:flex; flex-direction:column;
+    transition:box-shadow .2s, transform .2s;
+  }
+  .plan-card:hover{box-shadow:0 14px 32px rgba(19,36,32,0.08); transform:translateY(-2px);}
+  .plan-card .kicker{font-size:11px; text-transform:uppercase; letter-spacing:0.09em; color:var(--gold); font-weight:700;}
+  .plan-card h3{font-size:19px; margin-top:8px; font-weight:600;}
+  .plan-card .si-range{font-family:'JetBrains Mono',monospace; font-size:12.5px; color:rgba(19,36,32,0.55); margin-top:6px;}
+  .plan-card p.desc{font-size:14px; color:rgba(19,36,32,0.68); margin-top:12px; flex-grow:1;}
+  .plan-card .feats{margin-top:14px; display:flex; flex-wrap:wrap; gap:6px;}
+  .plan-card .feats span{
+    font-size:11.5px; background:var(--paper-2); padding:4px 9px; border-radius:100px; color:rgba(19,36,32,0.7);
+  }
+  .plan-card .cta{margin-top:18px; font-size:13.5px; font-weight:600; color:var(--pine); text-decoration:none; display:flex; align-items:center; gap:6px;}
+
+  /* ---------- Why ---------- */
+  #why{background:var(--ink); color:var(--paper);}
+  #why .sec-head p{color:rgba(241,245,241,0.65);}
+  #why .sec-head .eyebrow{color:var(--gold-2);}
+  .why-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(241,245,241,0.12); border:1px solid rgba(241,245,241,0.12); border-radius:8px; overflow:hidden;}
+  .why-item{background:var(--ink); padding:30px 24px;}
+  .why-item .ic{width:34px; height:34px; margin-bottom:16px;}
+  .why-item .ic svg{width:100%; height:100%; stroke:var(--gold-2); fill:none; stroke-width:1.5;}
+  .why-item h4{font-size:16px; font-weight:600; margin-bottom:8px;}
+  .why-item p{font-size:13.5px; color:rgba(241,245,241,0.6);}
+
+  /* ---------- Process ---------- */
+  .process{display:grid; grid-template-columns:repeat(4,1fr); gap:24px;}
+  .process-step{position:relative; padding-top:20px;}
+  .process-step .num{font-family:'Fraunces',serif; font-size:34px; font-weight:600; color:var(--paper-2); -webkit-text-stroke:1.3px var(--pine); color:transparent;}
+  .process-step h4{font-size:16px; font-weight:600; margin-top:4px;}
+  .process-step p{font-size:13.5px; color:rgba(19,36,32,0.6); margin-top:6px;}
+
+  /* ---------- Contact ---------- */
+  #contact{background:var(--paper-2);}
+  .contact-shell{
+    display:grid; grid-template-columns:1fr 1fr; gap:0;
+    background:var(--white); border:1px solid var(--line); border-radius:8px; overflow:hidden;
+  }
+  .contact-info{background:var(--pine); color:var(--paper); padding:44px; display:flex; flex-direction:column; justify-content:space-between;}
+  .contact-info h3{font-size:26px; font-weight:600;}
+  .contact-info p{margin-top:12px; color:rgba(241,245,241,0.75); font-size:14.5px; max-width:38ch;}
+  .contact-methods{margin-top:32px; display:flex; flex-direction:column; gap:16px;}
+  .contact-methods a{
+    display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--paper);
+    font-size:15px; font-weight:600; padding-bottom:14px; border-bottom:1px solid rgba(241,245,241,0.18);
+  }
+  .contact-methods .ic{width:18px; height:18px; stroke:var(--gold-2); fill:none; stroke-width:1.6; flex-shrink:0;}
+  .contact-info .hours{margin-top:32px; font-size:12.5px; color:rgba(241,245,241,0.55);}
+
+  .contact-form{padding:44px;}
+  .contact-form h4{font-size:18px; font-weight:600; margin-bottom:6px;}
+  .contact-form .hint{font-size:13.5px; color:rgba(19,36,32,0.55); margin-bottom:24px;}
+  .field{margin-bottom:16px;}
+  .field label{font-size:12.5px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; opacity:0.7; display:block; margin-bottom:6px;}
+  .field input, .field select{
+    width:100%; padding:11px 12px; border:1px solid var(--line); border-radius:4px;
+    font-family:'Work Sans',sans-serif; font-size:14.5px; background:var(--paper);
+  }
+  .field input:focus, .field select:focus{outline:2px solid var(--pine); outline-offset:1px;}
+  .form-note{font-size:12px; color:rgba(19,36,32,0.5); margin-top:12px;}
+
+  /* ---------- Footer ---------- */
+  footer{background:var(--ink); color:rgba(241,245,241,0.6); padding:40px 0 28px;}
+  footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px; align-items:flex-start;}
+  footer .flogo{font-family:'Fraunces',serif; font-size:18px; font-weight:600; color:var(--paper);}
+  footer .disclaimer{max-width:560px; font-size:12px; line-height:1.6;}
+  footer .fright{font-size:12.5px; text-align:right;}
+
+  /* ---------- Mobile call bar ---------- */
+  .mobile-call{
+    display:none; position:fixed; bottom:0; left:0; right:0; z-index:60;
+    background:var(--ink); color:var(--paper); padding:14px 20px;
+    align-items:center; justify-content:center; gap:10px; text-decoration:none;
+    font-weight:600; font-size:15px; border-top:1px solid rgba(241,245,241,0.15);
+  }
+  .mobile-call svg{width:16px; height:16px; stroke:var(--gold-2);}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:980px){
+    nav.primary{display:none;}
+    .hero .wrap{grid-template-columns:1fr;}
+    .hero-stats{max-width:100%;}
+    .plan-grid{grid-template-columns:repeat(2,1fr);}
+    .why-grid{grid-template-columns:repeat(2,1fr);}
+    .process{grid-template-columns:repeat(2,1fr);}
+    .compass-shell{grid-template-columns:1fr; padding:26px;}
+    .compass-steps{border-right:none; border-bottom:1px solid var(--line); padding-right:0; padding-bottom:20px; display:flex; gap:18px; overflow-x:auto;}
+    .compass-step{padding:0; flex-shrink:0;}
+    .contact-shell{grid-template-columns:1fr;}
+    .mobile-call{display:flex;}
+    body{padding-bottom:56px;}
+  }
+  @media (max-width:600px){
+    .plan-grid{grid-template-columns:1fr;}
+    .why-grid{grid-template-columns:1fr;}
+    .process{grid-template-columns:1fr;}
+    .opt-grid{grid-template-columns:1fr;}
+    .topbar .wrap{justify-content:center; text-align:center;}
+    footer .wrap{flex-direction:column;}
+    footer .fright{text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <span class="badge">IRDAI Registered Advisor · Tata AIG Health Insurance</span>
+    <a class="call" href="tel:+917899658484">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      +91 78996 58484
+    </a>
+  </div>
+</div>
+
+<header class="site">
+  <div class="wrap">
+    <div class="logo">
+      <span class="mark">
+        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 2 L35 8 V19 C35 29 28.5 35.5 20 38 C11.5 35.5 5 29 5 19 V8 Z" fill="#0E3A31"/>
+          <path d="M11 21 L16 21 L18.5 14.5 L21.5 27.5 L24 21 L29 21" fill="none" stroke="#DFAE55" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="word">Secured Health<span class="sub">Tata AIG Advisor</span></span>
+    </div>
+    <nav class="primary">
+      <a href="#compass">Find My Plan</a>
+      <a href="#plans">Policies</a>
+      <a href="#why">Why Us</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="tel:+917899658484" class="btn btn-outline">Call Now</a>
+      <a href="#compass" class="btn btn-gold">Find My Plan</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <div class="eyebrow">Health Insurance, Sorted Right</div>
+      <h1>The right Tata AIG policy, <em>matched</em> to your family — not sold to you</h1>
+      <p class="lede">Individual, family floater, senior citizen, critical illness, or a top-up on your existing cover — answer three quick questions and see exactly which Tata AIG plan fits, before you talk premium.</p>
+      <div class="hero-actions">
+        <a href="#compass" class="btn btn-gold">Start the 60-second match</a>
+        <a href="tel:+917899658484" class="btn btn-ghost-light">Speak to an advisor</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="num">12+</div><div class="lab">Tata AIG health plans compared</div></div>
+        <div><div class="num">7,200+</div><div class="lab">Network hospitals, cashless</div></div>
+        <div><div class="num">0 ₹</div><div class="lab">Advisory fee to you</div></div>
+      </div>
+    </div>
+    <div class="compass-teaser">
+      <div class="tag">Policy Compass</div>
+      <h3>Not sure Individual vs Family Floater vs Top-Up?</h3>
+      <p>Most people overpay by picking the wrong structure — not the wrong insurer. The compass below sorts that out first.</p>
+      <div class="arrow">Try it below ↓</div>
+    </div>
+  </div>
+  <div class="hero-band"></div>
+</section>
+
+<section id="compass">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Policy Compass</div>
+      <h2>Three questions to your shortlist</h2>
+      <p>This isn't a quote engine — it narrows Tata AIG's full health lineup down to the 1–2 policies actually built for your situation.</p>
+    </div>
+
+    <div class="compass-shell">
+      <div class="compass-steps">
+        <div class="compass-step active" data-step-indicator="1">
+          <div class="n">1</div>
+          <div><div class="t">Who's being covered</div><div class="d">Just you, family, or parents</div></div>
+        </div>
+        <div class="compass-step" data-step-indicator="2">
+          <div class="n">2</div>
+          <div><div class="t">Current cover</div><div class="d">Starting fresh or topping up</div></div>
+        </div>
+        <div class="compass-step" data-step-indicator="3">
+          <div class="n">3</div>
+          <div><div class="t">Priority</div><div class="d">Premium vs. maximum protection</div></div>
+        </div>
+      </div>
+
+      <div class="compass-body">
+        <div class="compass-q active" data-step="1">
+          <h4>Who do you want to insure?</h4>
+          <div class="opt-grid">
+            <div class="opt" data-value="individual"><div class="oh">Just myself</div><div class="os">Single-life cover</div></div>
+            <div class="opt" data-value="family"><div class="oh">My family</div><div class="os">Spouse / kids, one policy</div></div>
+            <div class="opt" data-value="senior"><div class="oh">My parents (61+)</div><div class="os">Senior citizen cover</div></div>
+            <div class="opt" data-value="corporate"><div class="oh">My employees</div><div class="os">Group / corporate cover</div></div>
+          </div>
+        </div>
+
+        <div class="compass-q" data-step="2">
+          <h4>Do you already have a health policy?</h4>
+          <div class="opt-grid">
+            <div class="opt" data-value="fresh"><div class="oh">No, starting fresh</div><div class="os">Need a base policy</div></div>
+            <div class="opt" data-value="topup"><div class="oh">Yes, want extra cover</div><div class="os">Top up beyond existing SI</div></div>
+            <div class="opt" data-value="critical"><div class="oh">Worried about a major illness</div><div class="os">Cancer, cardiac, renal, etc.</div></div>
+          </div>
+        </div>
+
+        <div class="compass-q" data-step="3">
+          <h4>What matters most right now?</h4>
+          <div class="opt-grid">
+            <div class="opt" data-value="budget"><div class="oh">Lowest premium</div><div class="os">Essential, no-frills cover</div></div>
+            <div class="opt" data-value="balanced"><div class="oh">Balanced cover</div><div class="os">Good limits, fair premium</div></div>
+            <div class="opt" data-value="max"><div class="oh">Maximum protection</div><div class="os">Global cover, high SI, OPD</div></div>
+          </div>
+        </div>
+
+        <div class="compass-nav">
+          <span class="back hidden" id="compassBack">← Back</span>
+          <span></span>
+        </div>
+
+        <div class="result" id="compassResult">
+          <div class="result-card" id="resultCard"></div>
+          <span class="restart" id="compassRestart">↺ Start over</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="plans">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">The Full Lineup</div>
+      <h2>Tata AIG health policies I place most often</h2>
+      <p>A working shortlist — actual sum insured, add-ons, and premium depend on your age, city, and medical history, confirmed on your call.</p>
+    </div>
+    <div class="plan-grid">
+
+      <div class="plan-card">
+        <div class="kicker">Entry / Essential</div>
+        <h3>MediCare LITE</h3>
+        <div class="si-range">SI band varies by city &amp; age</div>
+        <p class="desc">Essential in-patient cover at an affordable premium — pre/post-hospitalisation, daycare procedures, and a restore benefit if your sum insured runs out mid-year.</p>
+        <div class="feats"><span>Restore benefit</span><span>Daycare cover</span><span>Annual check-up</span></div>
+        <a href="#contact" class="cta">Check eligibility →</a>
+      </div>
+
+      <div class="plan-card">
+        <div class="kicker">Core / Most Popular</div>
+        <h3>MediCare</h3>
+        <div class="si-range">SI: ₹3L – ₹20L</div>
+        <p class="desc">The standard family workhorse policy — global treatment cover, bariatric surgery, teleconsultations, and ambulance booking built in.</p>
+        <div class="feats"><span>Global cover</span><span>Teleconsultation</span><span>Vaccination benefit</span></div>
+        <a href="#contact" class="cta">Check eligibility →</a>
+      </div>
+
+      <div class="plan-card">
+        <div class="kicker">Comprehensive</div>
+        <h3>MediCare Premier</h3>
+        <div class="si-range">SI: ₹5L – ₹3Cr</div>
+        <p class="desc">Everything in MediCare plus home care treatment, OPD, high-end diagnostics, and emergency air ambulance — built for high-value protection.</p>
+        <div class="feats"><span>Air ambulance</span><span>OPD included</span><span>Wellness program</span></div>
+        <a href="#contact" class="cta">Check eligibility →</a>
+      </div>
+
+      <div class="plan-card">
+        <div class="kicker">Bonus-Led</div>
+        <h3>Health SuperCharge</h3>
+        <div class="si-range">SI: ₹5L – ₹20L</div>
+        <p class="desc">Sum insured grows 50% every claim-free year, up to 500% — with an added discount for younger family units under 40.</p>
+        <div class="feats"><span>5X SI bonus</span><span>Young family discount</span></div>
+        <a href="#contact" class="cta">Check eligibility →</a>
+      </div>
+
+      <div class="plan-card">
+        <div class="kicker">Senior Citizen</div>
+        <h3>Elder Care</h3>
+        <div class="si-range">SI up to ₹25L</div>
+        <p class="desc">Built for parents 61+ — home nursing after discharge, home physiotherapy, and a dedicated health manager to coordinate care.</p>
+        <div class="feats"><span>Home nursing</span><span>Health manager</span><span>Wellness calls</span></div>
+        <a href="#contact" class="cta">Check eligibility →</a>
+      </div>
+
+      <div class="plan-card">
+        <div class="kicker">Standard / Entry</div>
+        <h3>Aarogya Sanjeevani</h3>
+        <div class="si-range">SI: ₹1L – ₹5L</div>
+        <p class="desc">The IRDAI-standardised base policy — individual or family floater, lifelong renewal, and a straightforward cumulative bonus.</p>
+        <div class="feats"><span>Lifelong renewal</span><span>Cumulative bonus</span></div>
+        <a href="#contact" class="cta">Check eligibility →</a>
+      </div>
+
+      <div class="plan-card">
+        <div class="kicker">Add-On</div>
+        <h3>Super Top-Up (MediCare Plus)</h3>
+        <div class="si-range">Kicks in above your existing SI</div>
+        <p class="desc">Already insured elsewhere or through work? This raises your effective cover for a fraction of a fresh policy's premium.</p>
+        <div class="feats"><span>Stacks on existing cover</span><span>Low added premium</span></div>
+        <a href="#contact" class="cta">Check eligibility →</a>
+      </div>
+
+      <div class="plan-card">
+        <div class="kicker">Specific Illness</div>
+        <h3>Critical Illness Plan</h3>
+        <div class="si-range">Lump-sum on diagnosis</div>
+        <p class="desc">Pays out a fixed lump sum on diagnosis of covered major illnesses — cancer, heart conditions, renal failure — independent of hospital bills.</p>
+        <div class="feats"><span>Lump-sum payout</span><span>Income protection</span></div>
+        <a href="#contact" class="cta">Check eligibility →</a>
+      </div>
+
+      <div class="plan-card">
+        <div class="kicker">Group Cover</div>
+        <h3>Corporate Health Insurance</h3>
+        <div class="si-range">Custom per headcount</div>
+        <p class="desc">Employee hospitalisation, accidental disability, and accidental death cover — structured for your team size and budget.</p>
+        <div class="feats"><span>Employee cover</span><span>Custom sum insured</span></div>
+        <a href="#contact" class="cta">Check eligibility →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Why Go Through an Advisor</div>
+      <h2>Same Tata AIG premium. A lot more clarity.</h2>
+      <p>Buying direct doesn't cost less — the premium is set by Tata AIG either way. What changes is who explains the fine print before you sign, and who's on the phone when you're filing a claim.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/></svg></div>
+        <h4>No premium markup</h4>
+        <p>You pay Tata AIG's standard listed premium — my advisory fee is built into the insurer's commission, not added to your bill.</p>
+      </div>
+      <div class="why-item">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4.5A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5A2.5 2.5 0 0 1 4 19.5v-15z"/></svg></div>
+        <h4>Plain-language fine print</h4>
+        <p>Waiting periods, sub-limits, and exclusions explained before you buy — not discovered when you file a claim.</p>
+      </div>
+      <div class="why-item">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+        <h4>Claim-time support</h4>
+        <p>Cashless hospital coordination and claim paperwork handled with you, not left to a call centre queue.</p>
+      </div>
+      <div class="why-item">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h4>Annual policy review</h4>
+        <p>Family size, income, and medical history change — your cover gets reviewed at every renewal, not just sold once.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">How It Works</div>
+      <h2>From call to policy in four steps</h2>
+    </div>
+    <div class="process">
+      <div class="process-step"><div class="num">01</div><h4>Quick call</h4><p>Tell me who needs cover and your budget — 10 minutes, no obligation.</p></div>
+      <div class="process-step"><div class="num">02</div><h4>Shortlist</h4><p>You get 2–3 matched Tata AIG plans with honest trade-offs, in writing.</p></div>
+      <div class="process-step"><div class="num">03</div><h4>Apply</h4><p>I help complete the proposal form and medical disclosures correctly the first time.</p></div>
+      <div class="process-step"><div class="num">04</div><h4>Ongoing support</h4><p>Policy copy, renewal reminders, and claim assistance whenever you need it.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-shell">
+      <div class="contact-info">
+        <div>
+          <h3>Let's find your policy</h3>
+          <p>Call, WhatsApp, or leave your number — I'll call back with a shortlist, not a sales script.</p>
+          <div class="contact-methods">
+            <a href="tel:+917899658484">
+              <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              +91 78996 58484
+            </a>
+            <a href="https://wa.me/917899658484" target="_blank" rel="noopener">
+              <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              WhatsApp me directly
+            </a>
+          </div>
+        </div>
+        <div class="hours">Mon–Sat, 9:00 AM – 8:00 PM IST · Mangaluru, Karnataka</div>
+      </div>
+
+      <div class="contact-form">
+        <h4>Request a callback</h4>
+        <p class="hint">Share a few details and I'll call within the day with a shortlist.</p>
+        <form id="leadForm" onsubmit="return handleLead(event)">
+          <div class="field"><label for="lname">Full name</label><input type="text" id="lname" required placeholder="Your name"></div>
+          <div class="field"><label for="lphone">Phone number</label><input type="tel" id="lphone" required placeholder="10-digit mobile number"></div>
+          <div class="field">
+            <label for="lwho">Looking to insure</label>
+            <select id="lwho">
+              <option>Just myself</option>
+              <option>My family</option>
+              <option>My parents (senior citizen)</option>
+              <option>My employees (corporate)</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-gold" style="width:100%; justify-content:center;">Request callback</button>
+          <p class="form-note" id="formNote">I'll call the number above — no spam, no auto-dialers.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="flogo" style="display:flex; align-items:center; gap:10px;">
+        <span style="width:24px; height:24px; display:inline-block;">
+          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+            <path d="M20 2 L35 8 V19 C35 29 28.5 35.5 20 38 C11.5 35.5 5 29 5 19 V8 Z" fill="#F1F5F1"/>
+            <path d="M11 21 L16 21 L18.5 14.5 L21.5 27.5 L24 21 L29 21" fill="none" stroke="#0E3A31" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        Secured Health
+      </div>
+      <p class="disclaimer" style="margin-top:14px;">Secured Health is an independent, IRDAI-registered insurance advisory service. We assist clients in comparing and applying for Tata AIG General Insurance Company Ltd. health insurance products. We are not Tata AIG's official website — for policy wordings, claims, and grievance redressal, always refer to your policy document and Tata AIG's official channels. Premiums, sum insured, and terms are set solely by Tata AIG and subject to underwriting.</p>
+    </div>
+    <div class="fright">
+      <div>Call/WhatsApp: +91 78996 58484</div>
+      <div style="margin-top:6px;">Mangaluru, Karnataka, India</div>
+    </div>
+  </div>
+</footer>
+
+<a href="tel:+917899658484" class="mobile-call">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+  Call +91 78996 58484
+</a>
+
+<script>
+  // ---- Policy Compass logic ----
+  const answers = {};
+  let step = 1;
+  const totalSteps = 3;
+
+  document.querySelectorAll('.opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const qBlock = opt.closest('.compass-q');
+      qBlock.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      answers[step] = opt.dataset.value;
+      setTimeout(() => {
+        if (step < totalSteps) {
+          goToStep(step + 1);
+        } else {
+          showResult();
+        }
+      }, 220);
+    });
+  });
+
+  document.getElementById('compassBack').addEventListener('click', () => {
+    if (step > 1) goToStep(step - 1);
+  });
+
+  document.getElementById('compassRestart').addEventListener('click', () => {
+    Object.keys(answers).forEach(k => delete answers[k]);
+    document.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+    document.getElementById('compassResult').classList.remove('active');
+    goToStep(1);
+  });
+
+  function goToStep(n){
+    step = n;
+    document.querySelectorAll('.compass-q').forEach(q => q.classList.toggle('active', +q.dataset.step === n));
+    document.querySelectorAll('.compass-step').forEach(s => s.classList.toggle('active', +s.dataset.stepIndicator === n));
+    document.getElementById('compassBack').classList.toggle('hidden', n === 1);
+    document.getElementById('compassResult').classList.remove('active');
+    document.querySelector('.compass-body').style.display = 'block';
+  }
+
+  function showResult(){
+    document.querySelectorAll('.compass-q').forEach(q => q.classList.remove('active'));
+    document.getElementById('compassResult').classList.add('active');
+
+    const who = answers[1];
+    const cover = answers[2];
+    const priority = answers[3];
+
+    let plan = { name: "MediCare", si: "₹3L – ₹20L", points: [], sub: "Your matched Tata AIG policy" };
+
+    if (cover === 'topup') {
+      plan = {
+        name: "Super Top-Up (MediCare Plus)",
+        si: "Sits above your existing sum insured",
+        sub: "Best fit: you already have base cover",
+        points: [
+          "Raises your effective cover for a much lower added premium",
+          "Kicks in once your existing policy's limit is used up",
+          "Works alongside employer cover or an existing individual policy"
+        ]
+      };
+    } else if (cover === 'critical') {
+      plan = {
+        name: "Critical Illness Plan",
+        si: "Fixed lump-sum on diagnosis",
+        sub: "Best fit: protecting against a major illness",
+        points: [
+          "Pays a lump sum on diagnosis of cancer, cardiac and other listed illnesses",
+          "Payout is independent of actual hospital bills",
+          "Usually bought alongside a base hospitalisation policy, not instead of one"
+        ]
+      };
+    } else if (who === 'senior') {
+      plan = {
+        name: "Elder Care",
+        si: "SI up to ₹25L",
+        sub: "Best fit: cover for parents aged 61+",
+        points: [
+          "Home nursing support after hospital discharge",
+          "Home physiotherapy sessions included",
+          "Dedicated health manager to coordinate care and appointments"
+        ]
+      };
+    } else if (who === 'corporate') {
+      plan = {
+        name: "Corporate Health Insurance",
+        si: "Sized to your team",
+        sub: "Best fit: covering employees",
+        points: [
+          "Group hospitalisation cover for your team",
+          "Accidental disability and accidental death benefits included",
+          "Sum insured and pricing structured around headcount"
+        ]
+      };
+    } else if (priority === 'budget') {
+      plan = {
+        name: who === 'family' ? "Aarogya Sanjeevani (Family Floater)" : "MediCare LITE",
+        si: who === 'family' ? "₹1L – ₹5L" : "Essential SI band",
+        sub: "Best fit: lowest premium, essential cover",
+        points: [
+          "Standardised, no-frills in-patient hospitalisation cover",
+          "Pre and post-hospitalisation expenses included",
+          "Lower premium than comprehensive plans, fewer add-on frills"
+        ]
+      };
+    } else if (priority === 'max') {
+      plan = {
+        name: "MediCare Premier",
+        si: "₹5L – ₹3Cr",
+        sub: "Best fit: maximum protection",
+        points: [
+          "OPD treatment and high-end diagnostics included",
+          "Home care treatment and emergency air ambulance",
+          "Global cover for planned hospitalisation, plus wellness program"
+        ]
+      };
+    } else {
+      plan = {
+        name: who === 'family' ? "MediCare (Family Floater)" : "MediCare",
+        si: "₹3L – ₹20L",
+        sub: "Best fit: balanced cover and premium",
+        points: [
+          "Global cover if diagnosis is made in India and treatment happens abroad",
+          "Teleconsultation service and ambulance booking built in",
+          "Solid middle ground between essential and premium plans"
+        ]
+      };
+    }
+
+    const card = document.getElementById('resultCard');
+    card.innerHTML = `
+      <div class="tag">Your Match</div>
+      <h3>${plan.name}</h3>
+      <div class="sub">${plan.sub}</div>
+      <ul>${plan.points.map(p => `<li>${p}</li>`).join('')}</ul>
+      <div class="si">Indicative sum insured — ${plan.si}</div>
+      <div class="result-actions">
+        <a href="tel:+917899658484" class="btn btn-gold">Call to confirm premium</a>
+        <a href="https://wa.me/917899658484" target="_blank" rel="noopener" class="btn btn-outline">WhatsApp this match</a>
+      </div>
+    `;
+  }
+
+  // ---- Lead form (front-end only demo; wires to call/WhatsApp) ----
+  function handleLead(e){
+    e.preventDefault();
+    const name = document.getElementById('lname').value.trim();
+    const phone = document.getElementById('lphone').value.trim();
+    const who = document.getElementById('lwho').value;
+    const note = document.getElementById('formNote');
+
+    if (!/^\d{10}$/.test(phone.replace(/\D/g,'').slice(-10))) {
+      note.textContent = "Please enter a valid 10-digit mobile number.";
+      note.style.color = "#C4522F";
+      return false;
+    }
+
+    note.textContent = `Thanks ${name.split(' ')[0] || ''} — noted. Opening WhatsApp to confirm your callback...`;
+    note.style.color = "#0E3A31";
+
+    const msg = encodeURIComponent(`Hi, I'm ${name}. I'd like a callback about health insurance for: ${who}. My number: ${phone}`);
+    setTimeout(() => {
+      window.open(`https://wa.me/917899658484?text=${msg}`, '_blank');
+    }, 700);
+
+    return false;
+  }
+</script>
+
+</body>
+</html>
